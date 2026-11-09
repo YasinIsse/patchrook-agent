@@ -1,0 +1,13 @@
+include setup.py
+include README.md
+include scripts/setup.sh
+include evals/results.json
+graft skills
+graft tests
+prune .benchmark
+prune benchmarks
+prune docs
+prune experiments
+prune reports
+prune runs
+global-exclude __pycache__ *.py[cod]

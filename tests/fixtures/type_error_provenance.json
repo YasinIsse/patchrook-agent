@@ -1,0 +1,89 @@
+{
+  "source": "reports/cattrs-autonomous/v17-final-exact-events.json",
+  "baseline": {
+    "check_1": {
+      "success": true,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_1",
+      "argv": [
+        "env",
+        "FAST=1",
+        "HYPOTHESIS_STORAGE_DIRECTORY=/tmp/patchrook-evidence-agent/hypothesis",
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_validation.py",
+        "--benchmark-disable"
+      ],
+      "status": "exited",
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout": ".................                                                        [100%]\n17 passed in 0.18s\n",
+      "stderr": "",
+      "duration_seconds": 2.1714,
+      "truncated": false
+    },
+    "check_2": {
+      "success": false,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_2",
+      "argv": [
+        "python3",
+        "/tmp/patchrook-evidence-agent/visible_check.py"
+      ],
+      "status": "exited",
+      "exit_code": 1,
+      "timed_out": false,
+      "stdout": "{\"check\":\"cattrs_public_contract\",\"total\":18,\"passed\":0,\"failed\":18,\"failures\":[{\"error_type\":\"AttributeError\",\"error\":\"'NoneType' object has no attribute 'is_complete'\",\"cases\":[\"attrs_valid\",\"attrs_invalid_default\",\"attrs_missing_default\",\"attrs_missing_required\",\"dataclass_valid\",\"dataclass_invalid_default\",\"dataclass_missing_default\",\"dataclass_missing_required\",\"nested_dataclass_partial\",\"nested_attrs_partial\",\"typeddict_required_valid\",\"typeddict_required_invalid\",\"atomic_list_fallback\",\"atomic_dict_fallback\",\"dataclass_init_false\",\"attrs_init_false\",\"forbidden_extra_still_has_value\"]},{\"error_type\":\"AssertionError\",\"error\":\"Top-level partial_structure export is missing\",\"cases\":[\"public_exports_and_visible_refine\"]}],\"representative_failure\":{\"case\":\"dataclass_valid\",\"fixture\":{\"kind\":\"dataclass\",\"name\":\"DataclassRecord\",\"fields\":[{\"name\":\"label\",\"type\":\"str\",\"required\":true},{\"name\":\"count\",\"type\":\"int\",\"default\":7}]},\"call\":{\"receiver\":\"BaseConverter()\",\"method\":\"partial_structure\",\"data\":{\"label\":\"kept\",\"count\":\"3\"},\"target\":\"DataclassRecord\"},\"expected\":{\"value\":{\"type\":\"DataclassRecord\",\"label\":\"kept\",\"count\":3,\"count_type\":\"int\"},\"is_complete\":true,\"structured_fields\":{\"type\":\"frozenset\",\"members\":[\"label\",\"count\"]},\"failed_fields\":{\"type\":\"frozenset\",\"members\":[]},\"errors\":null,\"error_map\":{\"type\":\"Mapping\",\"empty\":true}},\"edit_authorization\":false}}",
+      "stderr": "",
+      "duration_seconds": 0.3471,
+      "truncated": false
+    }
+  },
+  "after_patch": {
+    "check_1": {
+      "success": false,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_1",
+      "argv": [
+        "env",
+        "FAST=1",
+        "HYPOTHESIS_STORAGE_DIRECTORY=/tmp/patchrook-evidence-agent/hypothesis",
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_validation.py",
+        "--benchmark-disable"
+      ],
+      "status": "exited",
+      "exit_code": 4,
+      "timed_out": false,
+      "stdout": "",
+      "stderr": "ImportError while loading conftest '/app/tests/conftest.py'.\ntests/__init__.py:8: in <module>\n    from cattrs import UnstructureStrategy\nsrc/cattrs/__init__.py:3: in <module>\n    from .converters import BaseConverter, Converter, GenConverter, UnstructureStrategy, PartialResult\nsrc/cattrs/converters.py:184: in <module>\n    class BaseConverter:\nsrc/cattrs/converters.py:185: in BaseConverter\n    _partial_structure_func = MultiStrategyDispatch()\n                              ^^^^^^^^^^^^^^^^^^^^^^^\nE   TypeError: MultiStrategyDispatch.__init__() missing 2 required positional arguments: 'fallback_factory' and 'converter'\n",
+      "duration_seconds": 2.456,
+      "truncated": false
+    },
+    "check_2": {
+      "success": false,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_2",
+      "argv": [
+        "python3",
+        "/tmp/patchrook-evidence-agent/visible_check.py"
+      ],
+      "status": "exited",
+      "exit_code": 1,
+      "timed_out": false,
+      "stdout": "{\"check\":\"cattrs_public_contract\",\"total\":18,\"passed\":0,\"failed\":0,\"blocked\":18,\"setup_error\":{\"error_type\":\"TypeError\",\"error\":\"MultiStrategyDispatch.__init__() missing 2 required positional arguments: 'fallback_factory' and 'converter'\"}}",
+      "stderr": "",
+      "duration_seconds": 0.3275,
+      "truncated": false
+    }
+  }
+}

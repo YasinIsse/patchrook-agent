@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "evaluation_date": "2026-11-08",
+  "scope": "Ten preselected Python bug-repair tasks; local pilot, not official full-dataset scores.",
+  "metric": "Distinct tasks whose submitted patch passed the original independent grader.",
+  "datasets": {
+    "quixbugs": {
+      "repository": "https://github.com/jkoppel/QuixBugs",
+      "revision": "4257f44b0ff1181dedaedee6a447e133219fcebf",
+      "tasks": 5,
+      "grading": "Pinned public JSON cases, replayed by a checker outside the worker.",
+      "selection_sha256": "e1f518d8ec5c9e436edf1ffb32040c5f9bba8843d14d121c19accf3a3da6344a"
+    },
+    "humanevalpack": {
+      "repository": "https://huggingface.co/datasets/bigcode/humanevalpack",
+      "revision": "f77fd1bea1eae17842ecbcae7da2a98a89166c61",
+      "python_tasks": [
+        20,
+        74,
+        99,
+        105,
+        132
+      ],
+      "protocol": "Local HumanEvalFixDocs adaptation: documentation and public example tests visible; official tests held out.",
+      "official_score": false,
+      "selection_sha256": "bd66be636ca0bcfb5ca81a2a9b5241166449f1bffa1ea9e70bc463697c02ca5b",
+      "dataset_file_sha256": "b1376d72be4bd016a62ad043d9de3846edb8d63edf1222da802a31330c14c3a7"
+    }
+  },
+  "models": {
+    "qwen3:8b": {
+      "model": "qwen3:8b",
+      "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+      "quantization": "Q4_K_M"
+    },
+    "tev1:4b": {
+      "model": "tev1:4b",
+      "digest": "7954dce22bc6c29c3b119656207681d12cb34434fed7caa086bfbc919bef0740",
+      "quantization": "Q8_0"
+    },
+    "qwen3:14b": {
+      "model": "qwen3:14b",
+      "digest": "bdbd181c33f2ed1b31c972991882db3cf4d192569092138a7d29e973cd9debe8",
+      "quantization": "Q4_K_M"
+    }
+  },
+  "shared_settings": {
+    "model": "qwen3:8b",
+    "context_size": 8192,
+    "max_output_tokens": 1024,
+    "max_steps": 12,
+    "deadline": 3600.0,
+    "check_timeout": 120.0,
+    "verifier_timeout": 30.0,
+    "decision_timeout": 90.0,
+    "temperature": 0.7,
+    "top_p": 0.8,
+    "top_k": 20,
+    "min_p": 0.0,
+    "think": false
+  },
+  "repair_sampling": {
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0,
+    "think": false,
+    "max_repair_calls": 2
+  },
+  "mini_swe_agent": {
+    "upstream_repository": "https://github.com/SWE-agent/mini-swe-agent.git",
+    "upstream_revision": "04d809ceab9df28f9adaed044884180159172930",
+    "upstream_version": "2.4.6",
+    "config_sha256": "fd56cd75940d29c2c6d61fcb71490fbe919c85d0c4dab52566ea9a7a27e04628",
+    "adapter_sha256": "7c22ac69f37e4e10e35e8ea8ddb0c5996cbc11e6c72a0c19cee8bd56a5c4c3fe"
+  },
+  "one_attempt_results": {
+    "mini_8b": {
+      "tasks": 10,
+      "attempts_per_task": 1,
+      "grader_passes": 4,
+      "summed_trial_seconds": 2202.526,
+      "completed_model_calls": {
+        "qwen3:8b": 44,
+        "qwen3:14b": 0,
+        "tev1:4b": 0
+      }
+    },
+    "harness_8b": {
+      "tasks": 10,
+      "attempts_per_task": 1,
+      "grader_passes": 6,
+      "summed_trial_seconds": 5725.727,
+      "completed_model_calls": {
+        "qwen3:8b": 31,
+        "qwen3:14b": 0,
+        "tev1:4b": 0
+      }
+    },
+    "harness_routed": {
+      "tasks": 10,
+      "attempts_per_task": 1,
+      "grader_passes": 7,
+      "summed_trial_seconds": 6954.136,
+      "completed_model_calls": {
+        "qwen3:8b": 25,
+        "qwen3:14b": 7,
+        "tev1:4b": 10
+      }
+    }
+  },
+  "routed_retries": {
+    "tasks_retried": 3,
+    "additional_attempts": 3,
+    "newly_passing_tasks": 1,
+    "task_ids": [
+      "quixbugs-find_first_in_sorted",
+      "humanevalfix-python-74",
+      "humanevalfix-python-132"
+    ],
+    "grader_passes_in_retries": 1,
+    "summed_trial_seconds": 2584.591,
+    "completed_model_calls": {
+      "qwen3:8b": 6,
+      "qwen3:14b": 4,
+      "tev1:4b": 3
+    },
+    "best_observed_distinct_task_coverage": 8,
+    "total_tasks": 10,
+    "combined_trial_seconds": 9538.727,
+    "original_scores_replaced": false
+  },
+  "tasks": [
+    {
+      "task_id": "quixbugs-bitcount",
+      "dataset": "QuixBugs",
+      "fingerprint": "1cafc22b9e95bf867124299b827a801297c7468542156f44b7806147a2912fd8",
+      "one_attempt_grader_passes": {
+        "mini_8b": true,
+        "harness_8b": true,
+        "harness_routed": true
+      }
+    },
+    {
+      "task_id": "quixbugs-gcd",
+      "dataset": "QuixBugs",
+      "fingerprint": "2279dcf40b7243b8c1238c6839f2307ad65889dc38c0344e54d35b6936207263",
+      "one_attempt_grader_passes": {
+        "mini_8b": false,
+        "harness_8b": true,
+        "harness_routed": true
+      }
+    },
+    {
+      "task_id": "quixbugs-find_first_in_sorted",
+      "dataset": "QuixBugs",
+      "fingerprint": "3ae3f630d3be5cad69f5a3c183ad27180aa9bd69794960960828ab0f7718086e",
+      "one_attempt_grader_passes": {
+        "mini_8b": false,
+        "harness_8b": false,
+        "harness_routed": false
+      },
+      "routed_retry_grader_pass": true
+    },
+    {
+      "task_id": "quixbugs-is_valid_parenthesization",
+      "dataset": "QuixBugs",
+      "fingerprint": "078b88c04a40958c2c8ff0a2bd37a3111385271c079905a63afa921302038be0",
+      "one_attempt_grader_passes": {
+        "mini_8b": false,
+        "harness_8b": true,
+        "harness_routed": true
+      }
+    },
+    {
+      "task_id": "quixbugs-max_sublist_sum",
+      "dataset": "QuixBugs",
+      "fingerprint": "b6a40e24ee83c539a23c066361ba316c699838ae941ef9b9d1f8052c4ad13252",
+      "one_attempt_grader_passes": {
+        "mini_8b": false,
+        "harness_8b": false,
+        "harness_routed": true
+      }
+    },
+    {
+      "task_id": "humanevalfix-python-20",
+      "dataset": "HumanEvalPack",
+      "fingerprint": "028fc2fa22362b00917d1a8fd1a8d58dad4544d847ffb5ce4e38e8318f485691",
+      "one_attempt_grader_passes": {
+        "mini_8b": true,
+        "harness_8b": true,
+        "harness_routed": true
+      }
+    },
+    {
+      "task_id": "humanevalfix-python-74",
+      "dataset": "HumanEvalPack",
+      "fingerprint": "1561d09f79fffa621c2a29aeda30ac0a25cda32cb82678215b6505c83a4749b7",
+      "one_attempt_grader_passes": {
+        "mini_8b": false,
+        "harness_8b": true,
+        "harness_routed": false
+      },
+      "routed_retry_grader_pass": false
+    },
+    {
+      "task_id": "humanevalfix-python-99",
+      "dataset": "HumanEvalPack",
+      "fingerprint": "a8c13fa1d3d9e488f71091feb031076a3773bcc572169eb11da398b9eeafffff",
+      "one_attempt_grader_passes": {
+        "mini_8b": true,
+        "harness_8b": false,
+        "harness_routed": true
+      }
+    },
+    {
+      "task_id": "humanevalfix-python-105",
+      "dataset": "HumanEvalPack",
+      "fingerprint": "25886c46651c6b351bcc57fa07e517b588bec268eead1772ebc5133b0ed304ee",
+      "one_attempt_grader_passes": {
+        "mini_8b": true,
+        "harness_8b": true,
+        "harness_routed": true
+      }
+    },
+    {
+      "task_id": "humanevalfix-python-132",
+      "dataset": "HumanEvalPack",
+      "fingerprint": "6e010a0fc887d55781bae3e50b235723f96e23778ce586b15c5673857f052e54",
+      "one_attempt_grader_passes": {
+        "mini_8b": false,
+        "harness_8b": false,
+        "harness_routed": false
+      },
+      "routed_retry_grader_pass": false
+    }
+  ],
+  "claim_qualification": {
+    "one_attempt_relative_increase_vs_mini_percent": 75,
+    "best_observed_relative_increase_vs_mini_percent": 100,
+    "best_observed_requires_extra_retries": true,
+    "best_observed_uses_unequal_attempt_budgets": true
+  },
+  "limitations": [
+    "Five tasks per dataset were selected; results are not population estimates or official benchmark scores.",
+    "Whole systems differ in prompts, tools, history, feedback and available models; this does not isolate routing causality.",
+    "The routed system alone received three additional retry attempts. Its original one-attempt score remains 7/10; 8/10 is best observed coverage across attempts.",
+    "The QuixBugs retry enabled source-anchor recovery and modified-source refresh that were disabled in the original run. Human retries kept these flags enabled.",
+    "Historical harness versions, task order and model/cache warmth differ. Historical Human baseline timing includes recorded memory contention.",
+    "A mini-SWE-agent grader pass on Human task99 still violates the published negative-half rounding example: -14.5 returns -14 instead of -15. Recorded grading outcomes remain unchanged.",
+    "Qualification runs and an interrupted mini integration diagnostic are excluded from these scores and times.",
+    "Detailed run logs and experimental drivers were removed during project cleanup. The report names and hashes below record the provenance of this retained summary; the raw reports are not distributed. No hidden or canonical test bodies are included."
+  ],
+  "source_report_provenance": [
+    {
+      "name": "quixbugs-comparison-v2.json",
+      "sha256": "9e0321b85311325daa6c8951b3caa2635ae1a025cebc4dda2e6a7791fc7bb46d"
+    },
+    {
+      "name": "humanevalfix-comparison-v2.json",
+      "sha256": "0d814772183f850cd3e3d38384de48dd7585cbe0bd4a5d610d447abd6fb623f3"
+    },
+    {
+      "name": "retry-comparison.json",
+      "sha256": "fd991bd1e255fe8594812581b3e975aabd31b5320bd8f4a2142777014211bb6e"
+    }
+  ]
+}

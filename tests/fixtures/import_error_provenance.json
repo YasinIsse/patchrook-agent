@@ -1,0 +1,88 @@
+{
+  "baseline": {
+    "check_1": {
+      "success": true,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_1",
+      "argv": [
+        "env",
+        "FAST=1",
+        "HYPOTHESIS_STORAGE_DIRECTORY=/tmp/patchrook-evidence-agent/hypothesis",
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_validation.py",
+        "--benchmark-disable"
+      ],
+      "status": "exited",
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout": ".................                                                        [100%]\n17 passed in 0.18s\n",
+      "stderr": "",
+      "duration_seconds": 2.2598,
+      "truncated": false
+    },
+    "check_2": {
+      "success": false,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_2",
+      "argv": [
+        "python3",
+        "/tmp/patchrook-evidence-agent/visible_check.py"
+      ],
+      "status": "exited",
+      "exit_code": 1,
+      "timed_out": false,
+      "stdout": "",
+      "stderr": "FAIL cattrs public-spec canary: AssertionError: BaseConverter.partial_structure is missing; expected partial_structure(data, target_type)\n",
+      "duration_seconds": 0.2794,
+      "truncated": false
+    }
+  },
+  "after_patch": {
+    "check_1": {
+      "success": false,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_1",
+      "argv": [
+        "env",
+        "FAST=1",
+        "HYPOTHESIS_STORAGE_DIRECTORY=/tmp/patchrook-evidence-agent/hypothesis",
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_validation.py",
+        "--benchmark-disable"
+      ],
+      "status": "exited",
+      "exit_code": 4,
+      "timed_out": false,
+      "stdout": "",
+      "stderr": "ImportError while loading conftest '/app/tests/conftest.py'.\ntests/__init__.py:8: in <module>\n    from cattrs import UnstructureStrategy\nsrc/cattrs/__init__.py:3: in <module>\n    from .converters import BaseConverter, Converter, GenConverter, UnstructureStrategy, PartialResult\nE   ImportError: cannot import name 'PartialResult' from 'cattrs.converters' (/app/src/cattrs/converters.py)\n",
+      "duration_seconds": 2.4523,
+      "truncated": false
+    },
+    "check_2": {
+      "success": false,
+      "kind": "command_check",
+      "verification_kind": "configured_command",
+      "name": "check_2",
+      "argv": [
+        "python3",
+        "/tmp/patchrook-evidence-agent/visible_check.py"
+      ],
+      "status": "exited",
+      "exit_code": 1,
+      "timed_out": false,
+      "stdout": "",
+      "stderr": "FAIL cattrs public-spec canary: ImportError: cannot import name 'PartialResult' from 'cattrs.converters' (/app/src/cattrs/converters.py)\n",
+      "duration_seconds": 0.2719,
+      "truncated": false
+    }
+  }
+}
